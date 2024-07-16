@@ -1,0 +1,22 @@
+name: FEUCurrency
+main: com.freshearth.currency.Plugin
+version: 0.0.1
+api-version: 1.20
+description: A simple currency plugin for the FEU minecraft server
+commands:
+  currency:
+    description: Base command
+
+permissions:
+  feucurrency.*:
+    description: Give access to all commands
+    default: op
+    children:
+      feucurrency.user: true
+      feucurrency.admin: true
+  feucurrency.user:
+    description: Give access to base user commands
+    default: not op
+  feucurrency.admin:
+    description: Give access to admin commands
+    default: op
