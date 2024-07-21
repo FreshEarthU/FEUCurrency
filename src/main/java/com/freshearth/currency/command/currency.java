@@ -92,6 +92,7 @@ public class currency implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "Recieving account not found");
                     return;
                 }
+                
 
                 if (!this.plugin.getDatabase().accountNameExists(senderAccount)) {
                     sender.sendMessage(ChatColor.RED + "Sending account not found");
@@ -103,6 +104,10 @@ public class currency implements CommandExecutor {
                 }
                 if (recieverAccount.toLowerCase() == senderAccount.toLowerCase()) {
                     sender.sendMessage(ChatColor.RED + "You cannot pay account with the same account");
+                    return;
+                }
+                if ((this.plugin.getDatabase().getAccountValue(senderAccount) - amount) < 0) {
+                    sender.sendMessage(ChatColor.RED + "Sending doesn't have enough money to send that amount");
                     return;
                 }
 

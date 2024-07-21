@@ -243,6 +243,7 @@ public class Database{
         }
         senderAmount -= amount;
         recieverAmount += amount;
+        
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE currencyAccounts SET value = ? WHERE accountID = ?")) {
             preparedStatement.setInt(1, senderAmount);
             preparedStatement.setInt(2, senderID);

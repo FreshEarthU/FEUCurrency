@@ -57,6 +57,9 @@ public class currencyTabCompletion implements TabCompleter {
                     commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
                 }
             }
+            if (args[0].equals("balance")) {
+                commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
+            }
         }
 
         return commands;
