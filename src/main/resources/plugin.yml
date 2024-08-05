@@ -6,6 +6,10 @@ description: A simple currency plugin for the FEU minecraft server
 commands:
   currency:
     description: Base command
+  pay:
+    description: Used to tranfer money from you account to another
+  balance:
+    description: Returns your current balance
 
 permissions:
   feucurrency.*:
@@ -13,9 +17,13 @@ permissions:
     default: op
     children:
       feucurrency.user: true
+      feucurrency.pay: true
       feucurrency.admin: true
   feucurrency.user:
     description: Give access to base user commands
+    default: not op
+  feucurrency.pay:
+    description: Give access to pay command
     default: not op
   feucurrency.admin:
     description: Give access to admin commands

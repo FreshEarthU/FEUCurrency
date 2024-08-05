@@ -7,10 +7,14 @@ import java.util.logging.Logger;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.freshearth.currency.command.balance;
 import com.freshearth.currency.command.currency;
-import com.freshearth.currency.command.currencyTabCompletion;
+import com.freshearth.currency.command.pay;
 import com.freshearth.currency.database.Database;
 import com.freshearth.currency.listener.onJoinListener;
+import com.freshearth.currency.tabCompletion.balanceTabCompletion;
+import com.freshearth.currency.tabCompletion.currencyTabCompletion;
+import com.freshearth.currency.tabCompletion.payTabCompletion;
 
 /*
  * currency java plugin
@@ -54,6 +58,10 @@ public class Plugin extends JavaPlugin
   public void registerCommands() {
       getCommand("currency").setExecutor(new currency(this));
       getCommand("currency").setTabCompleter(new currencyTabCompletion(this));
+      getCommand("pay").setExecutor(new pay(this));
+      getCommand("pay").setTabCompleter(new payTabCompletion(this));
+      getCommand("balance").setExecutor(new balance(this));
+      getCommand("balance").setTabCompleter(new balanceTabCompletion(this));
   }
 
   public Database getDatabase(){

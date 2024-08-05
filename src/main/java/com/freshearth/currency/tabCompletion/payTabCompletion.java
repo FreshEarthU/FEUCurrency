@@ -1,4 +1,4 @@
-package com.freshearth.currency.command;
+package com.freshearth.currency.tabCompletion;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 
 import com.freshearth.currency.Plugin;
 
-public class currencyTabCompletion implements TabCompleter {
+public class payTabCompletion implements TabCompleter {
 
 
     private final Plugin plugin;
 
-    public currencyTabCompletion(Plugin plugin) {
+    public payTabCompletion(Plugin plugin) {
         this.plugin = plugin;
     }
 
@@ -26,41 +26,30 @@ public class currencyTabCompletion implements TabCompleter {
         List<String> commands = new ArrayList<>();
         String senderName = "server";
         String uuid = "";
-
+        try {
         if (sender instanceof Player) {
             senderName = ((Player) sender).getName();
             uuid = ((Player) sender).getUniqueId().toString();
         }
-        try {
-        if (args.length == 1) {
-            
-            commands.add("pay");
-            commands.add("balance");
-            commands.add("list"); 
-            
-        } else if (args.length > 1) {
-            if (args[0].equals("pay")) {
-                if (args.length == 2) {
-                    commands.add("0");
-                }
-                else if (args.length == 3) {
-                    commands.add("to");
-                }
-                else if (args.length == 4) {
 
-                    commands.addAll(Arrays.asList(this.plugin.getDatabase().getAllAccountsNames()));
-                }
-                else if (args.length == 5) {
-                    commands.add("from");
-                }
-                else if (args.length == 6) {
-                    commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
-                }
+        if (args.length == 1) {
+                commands.add("0");
             }
-            if (args[0].equals("balance")) {
+            else if (args.length == 2) {
+                commands.add("to");
+            }
+            else if (args.length == 3) {
+
+                commands.addAll(Arrays.asList(this.plugin.getDatabase().getAllAccountsNames()));
+            }
+            else if (args.length == 4) {
+                commands.add("from");
+            }
+            else if (args.length == 5) {
                 commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
             }
-        }
+
+
 
         return commands;
         } catch (SQLException e) {
