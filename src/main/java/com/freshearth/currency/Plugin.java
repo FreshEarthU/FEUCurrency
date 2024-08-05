@@ -32,7 +32,7 @@ public class Plugin extends JavaPlugin
     configSetup();
     try{
       
-      database = new Database(config.getString("DATABASE_URL"), config.getString("DATABASE_USERNAME"), config.getString("DATABASE_PASSWORD"));
+      database = new Database(config.getString("DATABASE_URL"), config.getString("DATABASE_NAME"), config.getString("DATABASE_USERNAME"), config.getString("DATABASE_PASSWORD"));
       
     } catch (SQLException e) {
       
@@ -47,7 +47,8 @@ public class Plugin extends JavaPlugin
 
   public void configSetup() {
     //config.addDefault("USE_MYSQL", false); //Wont work with local database, Might use SQLite for local db If I ever get around to it.
-    config.addDefault("DATABASE_URL",  "127.0.0.1/feu");
+    config.addDefault("DATABASE_URL",  "127.0.0.1");
+    config.addDefault("DATABASE_NAME",  "feu");
     config.addDefault("DATABASE_USERNAME", "username");
     config.addDefault("DATABASE_PASSWORD", "password");
     config.options().copyDefaults(true);

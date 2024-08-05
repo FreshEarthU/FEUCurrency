@@ -1,9 +1,5 @@
 package com.freshearth.currency.command;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,11 +30,27 @@ public class balance implements CommandExecutor{
                 sender.sendMessage(ChatColor.RED + "You do not have permission to run this command");
                 return false;
             }
-            if (args.length > 1) senderName = args[1];
-                    if (this.plugin.getDatabase().accountNameExists(senderName))
-                        sender.sendMessage("$" + this.plugin.getDatabase().getAccountValue(senderName));
-                    else 
-                        sender.sendMessage(ChatColor.RED +"Could not find account with name " + senderName);
+
+            if (args.length > 0) senderName = args[0];
+            if (senderName.equals("top")) {
+                String[] AccountIDs = this.plugin.getDatabase().getTopAccountsNames(10);
+                String output = "Top valued accounts:\n";
+                for (String i : AccountIDs) {
+                    if (i == null) continue;
+                    output += i;
+                    output += " | $";
+
+                    output += this.plugin.getDatabase().getAccountValue(i);
+                    output += "\n";
+                }
+                sender.sendMessage(output);
+                return true;
+            }
+
+            if (this.plugin.getDatabase().accountNameExists(senderName))
+                sender.sendMessage("$" + this.plugin.getDatabase().getAccountValue(senderName));
+            else 
+               sender.sendMessage(ChatColor.RED +"Could not find account with name " + senderName);
         return true;
         } catch (Exception e){
             sender.sendMessage(ChatColor.RED + "Something went wrong, please contact an server operator.");

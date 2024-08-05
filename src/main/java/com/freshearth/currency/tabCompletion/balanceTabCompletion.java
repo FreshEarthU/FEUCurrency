@@ -42,7 +42,7 @@ public class balanceTabCompletion implements TabCompleter{
         @SuppressWarnings("unused")
         String senderName = "server";
         String uuid = "";
-
+        commands.add("top");
         if (sender instanceof Player) {
             senderName = ((Player) sender).getName();
             uuid = ((Player) sender).getUniqueId().toString();

@@ -14,9 +14,10 @@ import java.sql.SQLException;
 
 public class Database{
     private final Connection connection;
+    private String databaseName;
 
-    public Database(String path, String ... args) throws SQLException{
-        
+    public Database(String path, String db, String ... args) throws SQLException{
+        databaseName = db;
         if (args.length <= 1) {
             connection = DriverManager.getConnection("jdbc:mysql:" + path);
         } else {
@@ -26,6 +27,8 @@ public class Database{
         
         
         try(Statement statement = connection.createStatement();){
+            statement.execute("CREATE DATABASE IF NOT EXISTS " + databaseName);
+            statement.execute("USE " + databaseName);
 
                statement.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -206,6 +209,21 @@ public class Database{
         }
     }
 
+    public String[] getTopAccountsNames(int num) throws SQLException{
+        String[] output = new String[num];
+        try(PreparedStatement preparedStatement = connection.prepareStatement("Select * FROM currencyAccounts ORDER BY value DESC")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            for (int i = 0; i < output.length; i++) {
+                if (resultSet.next()) {
+                    output[i] = resultSet.getString("accountName");
+                } else {
+                    break;
+                }
+            }
+        }
+        return output;
+    }
+
     public void transferMoney(String senderName, String senderUUID, String recieverName, int amount) throws SQLException {
         int senderID = getAccountIDFromName(senderName);
         int recieverID = getAccountIDFromName(recieverName);
@@ -255,6 +273,7 @@ public class Database{
         }
 
     }
+
 
     public void closeConnection() throws SQLException{
         if (connection != null && !connection.isClosed()) {

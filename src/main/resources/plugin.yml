@@ -7,9 +7,12 @@ commands:
   currency:
     description: Base command
   pay:
+    usage: /<command> <amount> to <account> [from [account]]
     description: Used to tranfer money from you account to another
   balance:
+    usage: /<command> [user/top]
     description: Returns your current balance
+    aliases: bal
 
 permissions:
   feucurrency.*:
