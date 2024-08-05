@@ -24,7 +24,7 @@ public class pay implements CommandExecutor {
             String senderName = "server";
             String uuid = "";
 
-            if (sender instanceof Player) {
+            if (sender instanceof Player) { //A bunch of checks on the play and if the command is correct
                 senderName = ((Player) sender).getName();
                 uuid = ((Player) sender).getUniqueId().toString();
             }
@@ -59,33 +59,35 @@ public class pay implements CommandExecutor {
             try {
                 
                 int amount = Integer.parseInt(strAmount);
-                if (!this.plugin.getDatabase().accountNameExists(recieverAccount)) {
+                if (!this.plugin.getDatabase().accountNameExists(recieverAccount)) { //Do accounts exist
                     sender.sendMessage(ChatColor.RED + "Recieving account not found");
                     return;
                 }
-                
-
-                if (!this.plugin.getDatabase().accountNameExists(senderAccount)) {
+                if (!this.plugin.getDatabase().accountNameExists(senderAccount)) { //^^^
                     sender.sendMessage(ChatColor.RED + "Sending account not found");
                     return;
                 }
-                if (!(this.plugin.getDatabase().playerHasAccessToAccount(uuid, this.plugin.getDatabase().getAccountIDFromName(senderAccount)) > 0)) {
+
+                if (!(this.plugin.getDatabase().playerHasAccessToAccount(uuid, this.plugin.getDatabase().getAccountIDFromName(senderAccount)) > 0)) {// player account permission
                     sender.sendMessage(ChatColor.RED + "You do not have permission to access that account");
                     return;
                 }
-                if (strAmount.startsWith("-")){
+
+                if (strAmount.startsWith("-")){ //Negative number check
                     sender.sendMessage(ChatColor.RED + "You cannot use negative numbers");
                     return;
                 }
-                if (amount < 0){
+                if (amount < 0){ //^^^
                     sender.sendMessage(ChatColor.RED + "You cannot use negative numbers");
                     return;
                 }
-                if (recieverAccount.toLowerCase().equals(senderAccount.toLowerCase())) {
+
+
+                if (recieverAccount.toLowerCase().equals(senderAccount.toLowerCase())) { //If both specified accounts are equal
                     sender.sendMessage(ChatColor.RED + "You cannot pay account with the same account");
                     return;
                 }
-                if ((this.plugin.getDatabase().getAccountValue(senderAccount) - amount) < 0) {
+                if ((this.plugin.getDatabase().getAccountValue(senderAccount) - amount) < 0) { // If account will not be in the negatives
                     sender.sendMessage(ChatColor.RED + senderAccount + " doesn't have enough money to send that amount");
                     return;
                 }

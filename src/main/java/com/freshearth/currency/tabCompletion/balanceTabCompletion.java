@@ -39,6 +39,7 @@ public class balanceTabCompletion implements TabCompleter{
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> commands = new ArrayList<>();
+        @SuppressWarnings("unused")
         String senderName = "server";
         String uuid = "";
 

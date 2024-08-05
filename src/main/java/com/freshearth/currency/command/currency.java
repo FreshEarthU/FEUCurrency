@@ -37,13 +37,13 @@ public class currency implements CommandExecutor {
             if (args.length > 0) {
                 switch (args[0]) {
 
-                case "list":
+                case "list": //TODO: Move into sepearte command
                 try {
-                    sender.sendMessage(createListOfAccounts(this.plugin.getDatabase().getUserAccountsID(uuid)));
+                    sender.sendMessage(createListOfAccounts(this.plugin.getDatabase().getUserAccountsID(uuid))); //Generates a list of accounts that the player owns
                     } catch (SQLException e) {
                     e.printStackTrace();    }
                 break;
-                case "balance":
+                case "balance": //Redundant
                     if (args.length > 1) senderName = args[1];
                     if (this.plugin.getDatabase().accountNameExists(senderName))
                         sender.sendMessage("$" + this.plugin.getDatabase().getAccountValue(senderName));
@@ -52,7 +52,7 @@ public class currency implements CommandExecutor {
                 break;
                         
                 case "pay": // /currency pay <amount> to <recieverAccount> from <senderAccount>
-                        sender.sendMessage(ChatColor.RED +"Please use /pay instead");
+                        sender.sendMessage(ChatColor.RED +"Please use /pay instead"); //To lazy to fix the auto complete
                 break;
 
                 

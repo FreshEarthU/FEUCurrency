@@ -221,7 +221,7 @@ public class Database{
             return;
         }
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM currencyAccounts WHERE accountID = ?")) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM currencyAccounts WHERE accountID = ?")) { //Gets the value of each account
             preparedStatement.setString(1, senderID+"");
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -232,6 +232,7 @@ public class Database{
             recieverAmount = resultSet.getInt("value");
         }
 
+        //Creates an entry for transaction history
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO currencyHistory (senderID, senderUUID, senderAmount, recieverID, recieverAmount, amount) VALUES (?,?,?,?,?,?)")) {
             preparedStatement.setInt(1, senderID);
             preparedStatement.setString(2, senderUUID);
@@ -243,7 +244,7 @@ public class Database{
         }
         senderAmount -= amount;
         recieverAmount += amount;
-        
+        //Updates account values
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE currencyAccounts SET value = ? WHERE accountID = ?")) {
             preparedStatement.setInt(1, senderAmount);
             preparedStatement.setInt(2, senderID);

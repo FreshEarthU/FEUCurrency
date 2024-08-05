@@ -23,13 +23,14 @@ public class balance implements CommandExecutor{
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         try {
             String senderName = "server";
+            @SuppressWarnings("unused")
             String uuid = "";
 
             if (sender instanceof Player) {
                 senderName = ((Player) sender).getName();
                 uuid = ((Player) sender).getUniqueId().toString();
             }
-            if (!sender.hasPermission("feucurrency.user")) {
+            if (!sender.hasPermission("feucurrency.user")) { //Checks user permissions 
                 sender.sendMessage(ChatColor.RED + "You do not have permission to run this command");
                 return false;
             }
@@ -47,18 +48,4 @@ public class balance implements CommandExecutor{
         }
     }
 
-    private List<String> createListOfAccountsAccess(String[] IDs) {
-
-        List<String> accounts = new ArrayList<>();
-        try {
-        for (String string : IDs) {
-            accounts.add(this.plugin.getDatabase().getAccountNameFromID(string)) ;
-        }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return accounts;
-    }
 }
