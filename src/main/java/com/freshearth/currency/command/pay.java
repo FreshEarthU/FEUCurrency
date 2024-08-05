@@ -74,11 +74,11 @@ public class pay implements CommandExecutor {
                 }
 
                 if (strAmount.startsWith("-")){ //Negative number check
-                    sender.sendMessage(ChatColor.RED + "You cannot use negative numbers");
+                    sender.sendMessage(ChatColor.RED + "You cannot use zero or negative numbers");
                     return;
                 }
-                if (amount < 0){ //^^^
-                    sender.sendMessage(ChatColor.RED + "You cannot use negative numbers");
+                if (amount < 1){ //^^^
+                    sender.sendMessage(ChatColor.RED + "You cannot use zero or negative numbers");
                     return;
                 }
 
@@ -95,7 +95,7 @@ public class pay implements CommandExecutor {
                 this.plugin.getDatabase().transferMoney(senderAccount, uuid, recieverAccount,  amount);
                 sender.sendMessage("Successfully transfered $" + strAmount + " from " + senderAccount + " to " + recieverAccount);
             } catch (NumberFormatException e) {
-                sender.sendMessage(ChatColor.RED + "Amount entered is not a valid number");
+                sender.sendMessage(ChatColor.RED + "Amount entered is not a valid integer");
                 //e.printStackTrace();
             } catch (SQLException e) {
                 sender.sendMessage(ChatColor.RED + "Something went wrong, Please contact server operator.");

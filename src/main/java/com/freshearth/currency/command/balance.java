@@ -48,7 +48,7 @@ public class balance implements CommandExecutor{
             }
 
             if (this.plugin.getDatabase().accountNameExists(senderName))
-                sender.sendMessage("$" + this.plugin.getDatabase().getAccountValue(senderName));
+                sender.sendMessage("Current Balance of " + senderName + ":$" + this.plugin.getDatabase().getAccountValue(senderName));
             else 
                sender.sendMessage(ChatColor.RED +"Could not find account with name " + senderName);
         return true;

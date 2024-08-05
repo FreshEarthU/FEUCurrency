@@ -34,16 +34,16 @@ public class currency implements CommandExecutor {
             }
             
 
-            if (args.length > 0) {
+            if (args.length > 0) { 
                 switch (args[0]) {
 
-                case "list": //TODO: Move into sepearte command
+                case "list":
                 try {
                     sender.sendMessage(createListOfAccounts(this.plugin.getDatabase().getUserAccountsID(uuid))); //Generates a list of accounts that the player owns
                     } catch (SQLException e) {
                     e.printStackTrace();    }
                 break;
-                case "balance": //Redundant
+                case "balance": //TODO: Redundant
                     if (args.length > 1) senderName = args[1];
                     if (this.plugin.getDatabase().accountNameExists(senderName))
                         sender.sendMessage("$" + this.plugin.getDatabase().getAccountValue(senderName));
@@ -57,7 +57,7 @@ public class currency implements CommandExecutor {
 
                 
                     
-                case "admin":
+                case "admin": //TODO: add admin commands [transfer, add, create, join]
                 sender.sendMessage("Uh oh, Please insert the admin");
                     break;
                 default:
