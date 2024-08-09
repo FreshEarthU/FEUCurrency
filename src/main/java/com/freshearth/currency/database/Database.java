@@ -153,6 +153,14 @@ public class Database{
         }
     }
 
+    public String getPlayerUUID(String name) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getString("UUID");
+        }
+    }
 
     public String[] getUserAccountsID(String uuid) throws SQLException {
             ArrayList<String> list = new ArrayList<String>();

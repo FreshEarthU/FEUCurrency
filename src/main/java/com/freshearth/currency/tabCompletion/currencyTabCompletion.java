@@ -34,55 +34,22 @@ public class currencyTabCompletion implements TabCompleter {
         }
         try {
         if (args.length == 1) {
-            
-            commands.add("pay");
-            commands.add("balance");
-            commands.add("list"); 
-            
-        } else if (args.length > 1) {
-            if (args[0].equals("pay")) {
-                if (args.length == 2) {
-                    commands.add("0");
-                }
-                else if (args.length == 3) {
-                    commands.add("to");
-                }
-                else if (args.length == 4) {
-
-                    commands.addAll(Arrays.asList(this.plugin.getDatabase().getAllAccountsNames()));
-                }
-                else if (args.length == 5) {
-                    commands.add("from");
-                }
-                else if (args.length == 6) {
-                    commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
-                }
+            commands.add("list");
+            if (sender.hasPermission("feucurrency.admin")) {
+                commands.add("admin");
             }
-            if (args[0].equals("balance")) {
-                commands.addAll(createListOfAccountsAccess(this.plugin.getDatabase().getUserAccountsID((uuid))));
+            
+        } else if (args.length > 1) { //TODO: add admin commands to Tab Complet
+            if (sender.hasPermission("feucurrency.admin")) {
+                commands.add("create <account name> [player]");
+                commands.add("transfer <account from> <account to> <amount>");
             }
         }
 
         return commands;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return commands;
         }
-    }
-    
-
-    private List<String> createListOfAccountsAccess(String[] IDs) {
-
-        List<String> accounts = new ArrayList<>();
-        try {
-        for (String string : IDs) {
-            accounts.add(this.plugin.getDatabase().getAccountNameFromID(string)) ;
-        }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return accounts;
     }
 }
