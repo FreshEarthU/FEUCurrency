@@ -2,6 +2,7 @@ package com.freshearth.currency.database;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.bukkit.entity.Player;
 
@@ -16,20 +17,26 @@ public class Database{
     private final Connection connection;
     private String databaseName;
 
-    public Database(String path, String db, String ... args) throws SQLException{
+    public Database(String ip, String username, String password, String db) throws SQLException{
         databaseName = db;
-        if (args.length <= 1) {
-            connection = DriverManager.getConnection("jdbc:mysql:" + path);
-        } else {
+        final Properties prop=new Properties();
+        prop.setProperty("user", username);
+        prop.setProperty("password", password);
+        prop.setProperty("useSSL", "false");
+        prop.setProperty("autoReconnect", "true");
 
-            connection = DriverManager.getConnection("jdbc:mysql://" + args[0] + ":" + args[1] + "@"+ path);
+        Connection initconnection = DriverManager.getConnection("jdbc:mysql://" + ip, prop);
+        try(Statement statement = initconnection.createStatement();){
+            statement.execute("CREATE DATABASE IF NOT EXISTS " + databaseName);
+            statement.execute("USE " + databaseName);
+            initconnection.close();
         }
+
+        connection = DriverManager.getConnection("jdbc:mysql://" + ip + "/" + db, prop);
+        
         
         
         try(Statement statement = connection.createStatement();){
-            statement.execute("CREATE DATABASE IF NOT EXISTS " + databaseName);
-            statement.execute("USE " + databaseName);
-
                statement.execute("""
         CREATE TABLE IF NOT EXISTS users (
         UUID varchar(255) PRIMARY KEY, 

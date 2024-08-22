@@ -32,7 +32,7 @@ public class Plugin extends JavaPlugin
     configSetup();
     try{
       
-      database = new Database(config.getString("DATABASE_URL"), config.getString("DATABASE_NAME"), config.getString("DATABASE_USERNAME"), config.getString("DATABASE_PASSWORD"));
+      database = new Database(config.getString("DATABASE_URL"), config.getString("DATABASE_USERNAME"), config.getString("DATABASE_PASSWORD"), config.getString("DATABASE_NAME"));
       
     } catch (SQLException e) {
       

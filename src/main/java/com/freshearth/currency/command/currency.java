@@ -65,9 +65,10 @@ public class currency implements CommandExecutor {
                             break;
                         case "transfer":
                             if (args.length > 4) {
-                            this.plugin.getDatabase().transferMoney(args[2], uuid, args[3], Integer.parseInt(args[4]));
+                                payment(sender, uuid, args[2], args[4], args[3]);
                             } else {
                                 sender.sendMessage(ChatColor.RED + "Not enough arguments");
+                                
                             }
                         break;
 
@@ -110,5 +111,44 @@ public class currency implements CommandExecutor {
         return stringBuilder;
     }
 
+    public void payment(CommandSender sender, String uuid, String senderAccount, String strAmount, String recieverAccount) {
+        
+        try {
+            
+            int amount = Integer.parseInt(strAmount);
+            if (!this.plugin.getDatabase().accountNameExists(recieverAccount)) { //Do accounts exist
+                sender.sendMessage(ChatColor.RED + "Recieving account not found");
+                return;
+            }
+            if (!this.plugin.getDatabase().accountNameExists(senderAccount)) { //^^^
+                sender.sendMessage(ChatColor.RED + "Sending account not found");
+                return;
+            }
 
+
+            if (strAmount.startsWith("-")){ //Negative number check
+                sender.sendMessage(ChatColor.RED + "You cannot use zero or negative numbers");
+                return;
+            }
+            if (amount < 1){ //^^^
+                sender.sendMessage(ChatColor.RED + "You cannot use zero or negative numbers");
+                return;
+            }
+
+
+            if (recieverAccount.toLowerCase().equals(senderAccount.toLowerCase())) { //If both specified accounts are equal
+                sender.sendMessage(ChatColor.RED + "You cannot pay account with the same account");
+                return;
+            }
+
+            this.plugin.getDatabase().transferMoney(senderAccount, uuid, recieverAccount,  amount);
+            sender.sendMessage("Successfully transfered $" + strAmount + " from " + senderAccount + " to " + recieverAccount);
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ChatColor.RED + "Amount entered is not a valid integer");
+            //e.printStackTrace();
+        } catch (SQLException e) {
+            sender.sendMessage(ChatColor.RED + "Something went wrong, Please contact server operator.");
+            e.printStackTrace();
+        }
+}
 }
